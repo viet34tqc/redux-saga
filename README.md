@@ -12,4 +12,7 @@ After waiting for login, saga wait for logout
 Dispatch logout action
 Delete the `acess_token`
 
-## Navigate in saga
+## Navigate in Redux
+
+Using library connected-react-router
+Navigate by dispatching an action to redux-store
