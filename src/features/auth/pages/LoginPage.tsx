@@ -1,6 +1,6 @@
 import { Box, Button, makeStyles, Paper, Typography } from '@material-ui/core';
 import { useAppDispatch } from '../../../app/hooks';
-import { login, logout } from '../authSlice';
+import { login } from '../authSlice';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -42,14 +42,6 @@ const LoginPage = () => {
 						variant="contained"
 						color="primary"
 						onClick={handleLoginClick}
-					>
-						Fake Login
-					</Button>
-					<Button
-						fullWidth
-						variant="contained"
-						color="primary"
-						onClick={() => dispatch(logout())}
 					>
 						Fake Login
 					</Button>
