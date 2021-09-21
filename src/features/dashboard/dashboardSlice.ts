@@ -53,7 +53,7 @@ const dashboardSlice = createSlice({
 			state.statistics = action.payload;
 		},
 		setHighestStudentList(state, action: PayloadAction<Student[]>) {
-			state.highestStudentList = action.payload;
+			state.highestStudentList = action.payload
 		},
 		setLowestStudentList(state, action: PayloadAction<Student[]>) {
 			state.lowestStudentList = action.payload;
