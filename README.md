@@ -16,3 +16,30 @@ Delete the `acess_token`
 
 Using library connected-react-router
 Navigate by dispatching an action to redux-store
+
+## Dashboard Students
+
+Routing
+
+- /admin/students: listing
+- /admin/students/add: add new
+- /admin/students/:studentID: update student
+
+Listing
+
+- Search by name
+- Filter by city
+- Sort by name, mark
+- Pagination
+
+Student slice state
+
+- Loading
+- List
+- Pagination
+- Filter {page: 1, limit: 10,...}
+
+Add/Edit
+
+- React Hook Form
+- Yup
