@@ -3,6 +3,7 @@ import { Pagination } from '@material-ui/lab';
 import React, { useEffect } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { selectCityMap } from '../../city/citySlice';
 import StudentTable from '../components/StudentTable';
 import {
 	fetchStudentList,
@@ -56,6 +57,8 @@ const StudentListPage = () => {
 		);
 	};
 
+	const cityMap = useAppSelector(selectCityMap);
+
 	return (
 		<Box className={classes.root}>
 			<Box className={classes.titleContainer}>
@@ -67,7 +70,7 @@ const StudentListPage = () => {
 				</Link>
 			</Box>
 			{/* Student Table */}
-			<StudentTable studentList={studentList} />
+			<StudentTable studentList={studentList} cityMap={cityMap} />
 			{/* Pagination */}
 
 			<Box my={2} display="flex" justifyContent="center">

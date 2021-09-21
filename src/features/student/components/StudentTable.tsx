@@ -1,4 +1,5 @@
 import {
+	Box,
 	Button,
 	makeStyles,
 	Table,
@@ -9,10 +10,12 @@ import {
 	TableRow,
 } from '@material-ui/core';
 import React from 'react';
-import { Student } from '../../../models';
+import { City, Student } from '../../../models';
+import { capitalizeFirstLetter, changeMarkColor } from '../../../utils/common';
 
 interface StudentTableProps {
 	studentList: Student[];
+	cityMap: { [key: string]: City };
 	onEdit?: (student: Student) => {};
 	onRemove?: (student: Student) => {};
 }
@@ -24,7 +27,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const StudentTable = ({ studentList, onEdit, onRemove }: StudentTableProps) => {
+const StudentTable = ({
+	studentList,
+	cityMap,
+	onEdit,
+	onRemove,
+}: StudentTableProps) => {
 	const classes = useStyles();
 	return (
 		<TableContainer>
@@ -44,9 +52,13 @@ const StudentTable = ({ studentList, onEdit, onRemove }: StudentTableProps) => {
 						<TableRow key={student.id}>
 							<TableCell>{idx + 1}</TableCell>
 							<TableCell>{student.name}</TableCell>
-							<TableCell>{student.gender}</TableCell>
-							<TableCell>{student.mark}</TableCell>
-							<TableCell>{student.city}</TableCell>
+							<TableCell>{capitalizeFirstLetter(student.gender)}</TableCell>
+							<TableCell>
+								<Box color={changeMarkColor(Number(student.mark))}>
+									{student.mark}
+								</Box>
+							</TableCell>
+							<TableCell>{cityMap[student.city]?.name}</TableCell>
 							<TableCell align="right">
 								<Button
 									color="primary"
