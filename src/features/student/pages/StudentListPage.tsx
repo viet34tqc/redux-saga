@@ -1,10 +1,16 @@
 import { Box, Button, makeStyles, Typography } from '@material-ui/core';
+import { Pagination } from '@material-ui/lab';
 import React, { useEffect } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import StudentTable from '../components/StudentTable';
-import { fetchStudentList, selectStudentList } from '../studentSlice';
-
+import {
+	fetchStudentList,
+	selectStudentFilter,
+	selectStudentList,
+	selectStudentPagination,
+	setFilter,
+} from '../studentSlice';
 const useStyles = makeStyles((theme) => ({
 	root: {
 		position: 'relative',
@@ -29,14 +35,26 @@ const useStyles = makeStyles((theme) => ({
 
 const StudentListPage = () => {
 	const studentList = useAppSelector(selectStudentList);
+	const pagination = useAppSelector(selectStudentPagination);
+	const filter = useAppSelector(selectStudentFilter);
 	const match = useRouteMatch();
 	const classes = useStyles();
 
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(fetchStudentList({ _page: 1, _limit: 15 }));
-	}, [dispatch]);
+		dispatch(fetchStudentList(filter));
+	}, [dispatch, filter]);
+
+	const handlePageChange = (event: any, page: number) => {
+		// Update filter -> Run useEffect again -> Run fetchStudentList again
+		dispatch(
+			setFilter({
+				...filter,
+				_page: page,
+			})
+		);
+	};
 
 	return (
 		<Box className={classes.root}>
@@ -49,8 +67,17 @@ const StudentListPage = () => {
 				</Link>
 			</Box>
 			{/* Student Table */}
-            <StudentTable studentList={studentList} />
+			<StudentTable studentList={studentList} />
 			{/* Pagination */}
+
+			<Box my={2} display="flex" justifyContent="center">
+				<Pagination
+					color="primary"
+					count={Math.ceil(pagination._totalRows / pagination._limit)}
+					page={pagination?._page}
+					onChange={handlePageChange}
+				/>
+			</Box>
 		</Box>
 	);
 };

@@ -10,8 +10,8 @@ import {
 export interface StudentState {
 	loading: boolean;
 	list: Student[];
-	filter?: ListParams;
-	pagination?: PaginationParams;
+	filter: ListParams;
+	pagination: PaginationParams;
 }
 
 const initialState: StudentState = {
@@ -36,7 +36,10 @@ const studentSlice = createSlice({
 			state.loading = true;
 		},
 		// Of course, we can extract this reducer into 2 reducer setList, setPagination
-		fetchStudentListSuccess(state, action: PayloadAction<ListResponse<Student>>) {
+		fetchStudentListSuccess(
+			state,
+			action: PayloadAction<ListResponse<Student>>
+		) {
 			state.list = action.payload.data;
 			state.pagination = action.payload.pagination;
 			state.loading = false;
