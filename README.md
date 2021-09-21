@@ -43,3 +43,9 @@ Add/Edit
 
 - React Hook Form
 - Yup
+
+## Flow Search debounce
+
+- onChange: Dispatch action setFilterDebounce
+- when setFilterDebounce, setFilter to the newFilter
+- StudentListTable run useEffect again to fetch new data

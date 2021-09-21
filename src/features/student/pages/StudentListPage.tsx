@@ -3,7 +3,9 @@ import { Pagination } from '@material-ui/lab';
 import React, { useEffect } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { selectCityMap } from '../../city/citySlice';
+import { ListParams } from '../../../models';
+import { selectCityList, selectCityMap } from '../../city/citySlice';
+import StudentFilter from '../components/StudentFilter';
 import StudentTable from '../components/StudentTable';
 import {
 	fetchStudentList,
@@ -11,6 +13,7 @@ import {
 	selectStudentList,
 	selectStudentPagination,
 	setFilter,
+	setFilterDebounce,
 } from '../studentSlice';
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -38,6 +41,7 @@ const StudentListPage = () => {
 	const studentList = useAppSelector(selectStudentList);
 	const pagination = useAppSelector(selectStudentPagination);
 	const filter = useAppSelector(selectStudentFilter);
+	const cityList = useAppSelector(selectCityList);
 	const match = useRouteMatch();
 	const classes = useStyles();
 
@@ -57,6 +61,10 @@ const StudentListPage = () => {
 		);
 	};
 
+	const handleSearchChange = (newFilter: ListParams) => {
+		dispatch(setFilterDebounce(newFilter));
+	};
+
 	const cityMap = useAppSelector(selectCityMap);
 
 	return (
@@ -69,6 +77,13 @@ const StudentListPage = () => {
 					</Button>
 				</Link>
 			</Box>
+
+			<StudentFilter
+				cityList={cityList}
+				filter={filter}
+				onSearchChange={handleSearchChange}
+			/>
+
 			{/* Student Table */}
 			<StudentTable studentList={studentList} cityMap={cityMap} />
 			{/* Pagination */}
