@@ -1,5 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button } from '@material-ui/core';
+import { Box, Button, CircularProgress } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { useAppSelector } from '../../../app/hooks';
@@ -16,6 +18,7 @@ interface StudentFormProps {
 
 const StudentForm = ({ initialValue, onSubmit }: StudentFormProps) => {
 	const cityOptions = useAppSelector(selectCityOptions);
+	const [error, setError] = useState<string>('');
 
 	const schema = yup
 		.object({
@@ -41,13 +44,21 @@ const StudentForm = ({ initialValue, onSubmit }: StudentFormProps) => {
 			city: yup.string().required(),
 		})
 		.required();
-	const { control, handleSubmit } = useForm({
+	const {
+		control,
+		handleSubmit,
+		formState: { isSubmitting },
+	} = useForm({
 		defaultValues: initialValue,
 		resolver: yupResolver(schema),
 	});
-	const handleFormSubmit = (formsValue: Student) => {
-		console.log('formsValue', formsValue);
-		onSubmit(formsValue);
+	const handleFormSubmit = async (formsValue: Student) => {
+		try {
+			setError('');
+			await onSubmit?.(formsValue);
+		} catch (error) {
+			setError(error.message);
+		}
 	};
 
 	return (
@@ -72,9 +83,18 @@ const StudentForm = ({ initialValue, onSubmit }: StudentFormProps) => {
 				<InputField name="age" control={control} label="Age" type="number" />
 				<InputField name="mark" control={control} label="Mark" type="number" />
 
+				{error && <Alert severity="error">{error}</Alert>}
+
 				<Box mt={3}>
-					<Button variant="contained" color="primary" type="submit">
-						Save
+					<Button
+						variant="contained"
+						color="primary"
+						type="submit"
+						disabled={isSubmitting}
+					>
+						{/* Add Loading */}
+						{isSubmitting && <CircularProgress size={16} color="primary" />}
+						&nbsp;Save
 					</Button>
 				</Box>
 			</form>

@@ -1,13 +1,14 @@
 import { Box, Typography } from '@material-ui/core';
 import { ChevronLeft } from '@material-ui/icons';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import studentApi from '../../../api/studentApi';
 import { Student } from '../../../models';
 import StudentForm from '../components/StudentForm';
 
 const StudentAddEditPage = () => {
+	const history = useHistory();
 	const { studentId } = useParams<{ studentId: string }>();
 	const isEdit = Boolean(studentId);
 	const [student, setStudent] = useState<Student>();
@@ -33,7 +34,17 @@ const StudentAddEditPage = () => {
 		...student,
 	} as Student;
 
-	const handleStudentFormSubmit = (formValues: Student) => {};
+	const handleStudentFormSubmit = async (formValues: Student) => {
+		// We are not using try/catch here
+		// If there is any error, it will be shown in StudentForm Component
+		if (isEdit) {
+			await studentApi.update(formValues);
+		} else {
+			await studentApi.add(formValues);
+		}
+
+		history.push('/admin/students');
+	};
 
 	return (
 		<Box>
