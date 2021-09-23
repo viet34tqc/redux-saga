@@ -64,6 +64,9 @@ const StudentListPage = () => {
 	const handleSearchChange = (newFilter: ListParams) => {
 		dispatch(setFilterDebounce(newFilter));
 	};
+	const handleSelectChange = (newFilter: ListParams) => {
+		dispatch(setFilter(newFilter));
+	};
 
 	const cityMap = useAppSelector(selectCityMap);
 
@@ -81,6 +84,7 @@ const StudentListPage = () => {
 			<StudentFilter
 				cityList={cityList}
 				filter={filter}
+				onChange={handleSelectChange}
 				onSearchChange={handleSearchChange}
 			/>
 
