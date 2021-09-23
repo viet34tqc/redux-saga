@@ -5,6 +5,7 @@ import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import studentApi from '../../../api/studentApi';
 import { Student } from '../../../models';
+import StudentForm from '../components/StudentForm';
 
 const StudentAddEditPage = () => {
 	const { studentId } = useParams<{ studentId: string }>();
@@ -19,11 +20,21 @@ const StudentAddEditPage = () => {
 			try {
 				const student: Student = await studentApi.getById(studentId);
 				setStudent(student);
-			} catch (error) {
-
-            }
+			} catch (error) {}
 		})();
 	}, [studentId]);
+
+	const initialValue = {
+		name: '',
+		age: '',
+		mark: '',
+		gender: '',
+		...student,
+	} as Student;
+
+	const handleStudentFormSubmit = (formValues: Student) => {
+
+	}
 
 	return (
 		<Box>
@@ -39,6 +50,13 @@ const StudentAddEditPage = () => {
 			<Typography variant="h4">
 				{isEdit ? 'Update student info' : 'Add new student'}
 			</Typography>
+
+			{/* We need to check if this is add form or edit form */}
+			{/* If edit form, we need to wait for the student data to be retrieved */}
+
+			{
+				(!isEdit || student) && <StudentForm initialValue={initialValue} onSubmit={handleStudentFormSubmit} />
+			}
 		</Box>
 	);
 };

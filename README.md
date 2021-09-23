@@ -61,3 +61,8 @@ Add/Edit
 - `onRemove` function from parent
   - call API to delete student
   - dispatch action to fetch the student again.
+
+## Form Fields
+
+- use `useController` hook
+- The most important is {value, onBlur, onChange}
