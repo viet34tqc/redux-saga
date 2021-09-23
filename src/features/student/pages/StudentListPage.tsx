@@ -2,6 +2,7 @@ import { Box, Button, makeStyles, Typography } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 import React, { useEffect } from 'react';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import studentApi from '../../../api/studentApi';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { ListParams, Student } from '../../../models';
@@ -75,10 +76,12 @@ const StudentListPage = () => {
 		try {
 			await studentApi.remove(student?.id || '');
 			dispatch(fetchStudentList(filter));
+
+			toast.success('Remove student successfully');
 		} catch (error) {
-			console.log( 'Failed to remove', error );
+			console.log('Failed to remove', error);
 		}
-	}
+	};
 
 	const handleEditStudent = async (student: Student) => {
 		history.push(`${match.url}/${student.id}`);

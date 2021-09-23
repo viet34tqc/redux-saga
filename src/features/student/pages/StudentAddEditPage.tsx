@@ -3,6 +3,8 @@ import { ChevronLeft } from '@material-ui/icons';
 import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import studentApi from '../../../api/studentApi';
 import { Student } from '../../../models';
 import StudentForm from '../components/StudentForm';
@@ -42,6 +44,8 @@ const StudentAddEditPage = () => {
 		} else {
 			await studentApi.add(formValues);
 		}
+
+		toast.success('Save student successfully');
 
 		history.push('/admin/students');
 	};

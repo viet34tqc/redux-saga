@@ -3,6 +3,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 import App from './App';
 import { store } from './app/store';
 import './index.css';
@@ -16,6 +17,7 @@ ReactDOM.render(
 				<CssBaseline />
 				<App />
 			</ConnectedRouter>
+			<ToastContainer />;
 		</Provider>
 	</React.StrictMode>,
 	document.getElementById('root')
