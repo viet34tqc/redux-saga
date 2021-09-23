@@ -49,3 +49,15 @@ Add/Edit
 - onChange: Dispatch action setFilterDebounce
 - when setFilterDebounce, setFilter to the newFilter
 - StudentListTable run useEffect again to fetch new data
+
+## Flow Delete student
+
+- Click 'Remove' button in table:
+  - Open dialog
+  - setSelectedStudent to display the student's name
+- Click 'Remove' button in dialog
+  - Run `onRemove` function from parent
+  - close dialog
+- `onRemove` function from parent
+  - call API to delete student
+  - dispatch action to fetch the student again.

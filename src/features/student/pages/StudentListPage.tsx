@@ -1,9 +1,10 @@
 import { Box, Button, makeStyles, Typography } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 import React, { useEffect } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link, useHistory, useRouteMatch } from 'react-router-dom';
+import studentApi from '../../../api/studentApi';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { ListParams } from '../../../models';
+import { ListParams, Student } from '../../../models';
 import { selectCityList, selectCityMap } from '../../city/citySlice';
 import StudentFilter from '../components/StudentFilter';
 import StudentTable from '../components/StudentTable';
@@ -42,8 +43,10 @@ const StudentListPage = () => {
 	const pagination = useAppSelector(selectStudentPagination);
 	const filter = useAppSelector(selectStudentFilter);
 	const cityList = useAppSelector(selectCityList);
-	const match = useRouteMatch();
 	const classes = useStyles();
+
+	const match = useRouteMatch();
+	const history = useHistory();
 
 	const dispatch = useAppDispatch();
 
@@ -68,6 +71,19 @@ const StudentListPage = () => {
 		dispatch(setFilter(newFilter));
 	};
 
+	const handleRemoveStudent = async (student: Student) => {
+		try {
+			await studentApi.remove(student?.id || '');
+			dispatch(fetchStudentList(filter));
+		} catch (error) {
+			console.log( 'Failed to remove', error );
+		}
+	}
+
+	const handleEditStudent = async (student: Student) => {
+		history.push(`${match.url}/${student.id}`);
+	};
+
 	const cityMap = useAppSelector(selectCityMap);
 
 	return (
@@ -89,7 +105,12 @@ const StudentListPage = () => {
 			/>
 
 			{/* Student Table */}
-			<StudentTable studentList={studentList} cityMap={cityMap} />
+			<StudentTable
+				studentList={studentList}
+				onEdit={handleEditStudent}
+				onRemove={handleRemoveStudent}
+				cityMap={cityMap}
+			/>
 			{/* Pagination */}
 
 			<Box my={2} display="flex" justifyContent="center">
