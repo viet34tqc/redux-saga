@@ -28,13 +28,12 @@ const StudentAddEditPage = () => {
 		name: '',
 		age: '',
 		mark: '',
+		city: '',
 		gender: '',
 		...student,
 	} as Student;
 
-	const handleStudentFormSubmit = (formValues: Student) => {
-
-	}
+	const handleStudentFormSubmit = (formValues: Student) => {};
 
 	return (
 		<Box>
@@ -54,9 +53,12 @@ const StudentAddEditPage = () => {
 			{/* We need to check if this is add form or edit form */}
 			{/* If edit form, we need to wait for the student data to be retrieved */}
 
-			{
-				(!isEdit || student) && <StudentForm initialValue={initialValue} onSubmit={handleStudentFormSubmit} />
-			}
+			{(!isEdit || student) && (
+				<StudentForm
+					initialValue={initialValue}
+					onSubmit={handleStudentFormSubmit}
+				/>
+			)}
 		</Box>
 	);
 };
