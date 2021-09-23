@@ -15,7 +15,7 @@ const InputField = ({
 	...inputProps
 }: InputFieldProps) => {
 	const {
-		field, // { value, name, onChange, onBlur, ref },
+		field: { value, onChange, onBlur, ref },
 		fieldState: { invalid, error },
 	} = useController({
 		name,
@@ -27,7 +27,10 @@ const InputField = ({
 			variant="outlined"
 			fullWidth
 			margin="normal"
-            {...field}
+            value={value}
+			onChange={onChange}
+			onBlur={onBlur}
+			inputRef={ref}
 			error={invalid}
 			helperText={error?.message}
 			inputProps={inputProps}
