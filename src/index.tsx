@@ -17,7 +17,7 @@ ReactDOM.render(
 				<CssBaseline />
 				<App />
 			</ConnectedRouter>
-			<ToastContainer />;
+			<ToastContainer />
 		</Provider>
 	</React.StrictMode>,
 	document.getElementById('root')
