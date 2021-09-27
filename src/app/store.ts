@@ -8,7 +8,6 @@ import {
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import authReducer from '../features/auth/authSlice';
 import cityReducer from '../features/city/citySlice';
-import counterReducer from '../features/counter/counterSlice';
 import dashboardReducer from '../features/dashboard/dashboardSlice';
 import studentReducer from '../features/student/studentSlice';
 import { history } from '../utils/history';
@@ -16,7 +15,6 @@ import rootSaga from './rootSaga';
 
 const rootReducer = combineReducers({
 	router: connectRouter(history),
-	counter: counterReducer,
 	auth: authReducer,
 	dashboard: dashboardReducer,
 	student: studentReducer,
