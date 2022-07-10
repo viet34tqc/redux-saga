@@ -1,8 +1,8 @@
 import { Box, Button, makeStyles, Paper, Typography } from '@material-ui/core';
-import { useAppDispatch } from '../../../app/hooks';
-import { login } from '../authSlice';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { login, logout, selectIsLoggedIn } from '../authSlice';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
 	root: {
 		display: 'flex',
 		flexFlow: 'row nowrap',
@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 const LoginPage = () => {
 	const classes = useStyles();
 	const dispatch = useAppDispatch();
+	const isLoggedIn = Boolean(localStorage.getItem('access_token'));
 
 	const handleLoginClick = () => {
 		// TODO: get username and pwd from the login form.
@@ -37,14 +38,25 @@ const LoginPage = () => {
 				</Typography>
 
 				<Box mt={4}>
-					<Button
-						fullWidth
-						variant="contained"
-						color="primary"
-						onClick={handleLoginClick}
-					>
-						Fake Login
-					</Button>
+					{!isLoggedIn ? (
+						<Button
+							fullWidth
+							variant="contained"
+							color="primary"
+							onClick={handleLoginClick}
+						>
+							Fake Login
+						</Button>
+					) : (
+						<Button
+							fullWidth
+							variant="contained"
+							color="primary"
+							onClick={() => dispatch(logout())}
+						>
+							Logout
+						</Button>
+					)}
 				</Box>
 			</Paper>
 		</div>

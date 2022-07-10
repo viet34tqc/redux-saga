@@ -40,6 +40,7 @@ function* watchLoginFlow() {
 	while (true) {
 		const isLoggedIn = Boolean(localStorage.getItem('access_token'));
 
+		// If you are already logged in, you won't need to listen to login
 		if (!isLoggedIn) {
 			// wait for login action
 			// take is non-blocking call, it returns the action object that is being dispatched.
@@ -49,12 +50,13 @@ function* watchLoginFlow() {
 		}
 
 		// Now the login is done
-		// If you click the login again, it won't execute the 'take' above again.
+		// If you click the login again, it won't execute the 'take' login again.
 
 		// wait for logout action
 		yield take(logout.type);
 		// then handle logout
 		// We are not using 'fork' here, because fork is non-blocking then it will comeback immediately to the top of the loop
+		// If deleting access_token is in progress, then saga won't wait for login (isLoggedIn still true) and come back here
 		// We need to wait for the logout process to be done completely
 		yield call(handleLogout);
 
